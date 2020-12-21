@@ -1,0 +1,19 @@
+Tudorache Bogdan-Mihai 324CA
+
+IOCLA - Tema #1 printf
+
+	Implementarea functiei iocla_printf:
+
+	Prima data se apeleaza count_parameters(format) pentru a obtine numarul de parametrii care trebuie parsati din stringul "format". Daca nu exista nici un astfel de parametru, pur si simplu se afiseaza intregul string "format" la stdout. In cazul in care se gasesc parametri, se aloca o matrice positions cu num_parameters linii si 2 coloane in care, pentru fiecare parametru care incepe cu "%", memoram indexul la care se gaseste si tipul parametrului de parsat, codificat cu ajutorul functiei check_for_parameter().
+
+	Parsarea string-ului final se face in functie de parametrii gasiti in "format". cu ajutorul informatiilor din matricea positions, construim pentru fiecare parametru variabilele buffer_size si string_pointer pentru a parsa corect caracterele "dintre" parametrii. Pentru n parametrii, vor exista n + 1 spatii "intre" parametrii, de aceea se mai face o concatenare dupa for-ul principal.
+
+	Pentru parsarea parametrilor propriu-zisi, se apeleaza cate o functie specifica pentru fiecare dintre cele 6 cazuri: 
+
+	Cazurile %s (string), %c (char), %%(invalid parameter) sunt simple, pur si simplu se concateneaza la string-ul final fie intreg stringul (cazul %s), fie cate un caracter (cazurile %s, %%).
+
+	Pentru cazul unsigned integer %u, luam pe rand cifrele numarului, le transformam in char-uri si le concatenam intr-un string initial gol. la final schimbam ordinea cifelor din string, pentru ca noi initial le-am parsat pe rand de la final la inceput cu ajutorul functiei reverse_string(). Aceasta schimbare de ordine se intampla si pentru cazurile %d, %x.
+
+	Pentru cazul hexadecimal integer %x, se afla fiecare cifra din reprezentarea in hexadecimal si se transforma in char cu ajutorul functiei get_hex_char(). Se concateneaza toate cifrele codificate intr-un string initial gol, si la final se inverseaza string-ul prin functia reverse_string().
+
+	Pentru cazul signed integer %d, se verifica daca bit-ul de semn este 1 (numar negativ), se transforma in numar pozitiv (folosim un unsigned int pentru a efectua parsarea pentru a evita problemele de overflow in cazurile limita) si se procedeaza ca la unsigned integer.
