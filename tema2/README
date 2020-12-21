@@ -1,0 +1,35 @@
+Tudorache Bogda-Mihai 324CA
+
+IOCLA - Tema 2 - Strings
+
+Task 1 - One Time Pad
+
+	Pentru acest task, pentru fiecare byte am mutat valoarea asociata din plaintext in registrul AL, am facut XOR cu cheia de la acelasi index din key si am mutat fiecare byte in ciphertext;
+
+Task 2 - Caesar Cipher
+
+	Verificam fiecare byte din string.
+
+	Daca byte-ul este litera mare, vom aplica cheia. Daca intervalul in care se afla byte-ul depaseste [64, 91] dupa aplicarea cheii, aplicam 'rotatii' (scadem 26) pana cand byte-ul se incadreaza in interval. 
+
+	Daca byte-ul este litera mica, aplicam exact acelasi rationament ca si pentru literele mari, doar ca intervalul corect este [96, 123].
+
+	Daca byte-ul nu este litera, nu se aplica cheia.
+
+	Fiecare byte astfel modificat se muta in ciphertext.
+
+Task 3 - Vigenere Cipher
+
+	Verificam fiecare byte din string. Procesam byte-ul numai daca este litera, altfel se muta pur si simplu in ciphertext. indexarea va incepe de la 0 si pentru string-ul dat ca input, si pentru cheie.
+
+	Daca dupa aplicarea cheii (daca este cazul) valoarea din byte depaseste cele doua intervale asociate literelor, se vor efectua rotatii pana cand se ajunge in intervalele specifice. In tot acest timp, tinem cont de pozitia cheii, pentru a sti de unde sa facem aplicarea cifrarii. 
+
+Task 4 - StrStr
+
+	Pentru acest task trebuie sa simulam un for loop in for loop pentru a cauta string-ul cerut in string-ul dat ca input. Pentru fiecare index incepand de la 0 pana la lungimea stringului - lungimea cheii, cautam cheia in stringul dat ca input. Daca nu se gaseste, se intoarce lungimea stringului initial + 1.
+
+Task 5 - Binary to Hexadecimal
+
+	Verificam fiecare secventa de cate 4 octeti, si o transformam in echivalentul ei in hexadecimal. Prima secventa va fi umpluta 'virtual' cu zero-uri, adica indexul de la 4 la 1 de la care va incepe va depinde de lungimea secventei initiale.
+
+	Pentru fiecare secventa de cate 4 octeti, verificam daca un byte e 1, si in caz afirmativ adunam valoarea asociata (8, 4, 2, 1) in registrul AL. Dupa ce construim numarul, il vom transforma in echivalentul ei hexazecimal din ascii. 
