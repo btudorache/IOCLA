@@ -10,4 +10,4 @@ Temele de la IOCLA din anul universitar 2020-2021. Assignment-urile implica cod 
 
 * Tema 3 - Parsarea unei expresii matematice in forma prefixata si construirea unui **AST**.
 
-Mai multe detalii se pot gasi in folderele specifice fiecarei teme.
+Mai multe informatii se pot gasi in folderele specifice fiecarei teme. Detaliile de implementare se afla in fisierele *old_README*.
