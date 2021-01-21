@@ -1,0 +1,23 @@
+Tudorache Bogdan-Mihai 324CA
+
+IOCLA Tema 3 - AST
+
+# iocla_atoi
+
+	Pentru implementarea functiei iocla_atoi, am luat pe rand octetii din string, i-am convertit in forma lor de integer,
+si am construit numarul in forma lui de int. Algoritmul este unul simplu: incepand de la primul char, la fiecare iteratie
+noua inmultesc rezultatul actual cu 10 si adun urmatorul char. In cazul in care primul octet era egal cu '-', 
+am setat un flag, pentru ca la final sa inmultesc numarul obtinut cu -1.
+
+# create_tree
+
+	Pentru a construi arborele, am implementat o noua functie care construieste arborele recursiv. In create_tree, doar
+am obtinut primul token din forma prefixata si i l-am dat ca parametru functiei add_tree_node.
+
+# add_tree_node
+
+	Functia primeste ca parametru un token. La inceput se aloca 12 octeti de memorie folosind malloc, pentru fiecare
+dintre cele 3 campuri: data, left, right. Plasam tokenul in nod, adica facem un deepcopy si il punem in campul data, folosind strdump. 
+In cazul in care tokenul este un operand, pur si simplu iesim din functie, intorcand adresa de inceput a nodului curent.
+Daca tokenul este un operator, apelam functia recursiv si construim nodul din stanga si din dreapta nodului curent.
+Pentru acest lucru obtinem pe rand tokenii urmatori, si apelam recursiv functia add_tree_node in stanga si in dreapta.
