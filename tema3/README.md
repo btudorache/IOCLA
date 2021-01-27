@@ -1,4 +1,4 @@
-# Tema 2
+# Tema 3 - AST
 
 Să se implementeze o funcție în limbaj de asamblare care efectuează parsarea unei expresii matematice în formă prefixată și construiește un **AST (abstract syntax tree)**. Numerele ce apar în expresie sunt numere întregi cu semn, pe 32 de biți, iar operațiile ce se aplică lor sunt: ```+, -, /, *```. Expresia prefixată va fi primita sub forma unui șir de caractere ce este dat ca parametru funcției, rezultatul fiind un pointer către nodul rădăcină al arborelui, salvat in registrul **EAX**.
 
