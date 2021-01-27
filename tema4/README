@@ -1,0 +1,62 @@
+Tudorache Bogdan Mihai 324CA
+
+# IOCLA Tema 4 - Exploit ELFs
+
+
+## Spargerea binarului nice
+
+In urma analizei binarului, am descoperit ca functia vulnerabila se gaseste la adresa 0x080492f8.
+Functia este vulnerabila pentru ca in bufferul alocat pe stiva de 270 de octeti se citeste prin intermediul
+functiei read() 0x1ff octeti in hexazecimal, adica 511 octeti. Astfel, putem depasi dimensiunea buffer-ului si 
+astfel putem accesa alte variabile/resurse prin intermediul acestei functii.
+
+Pentru spargerea binarului, am localizat functia care afiseaza flag-ul la adresa 0x08049291. In functia main(), se apeleaza
+7 functii care citesc cate un buffer, iar functia vulnerabila este cea de a doua. Am format un payload care "umple" bufferul primei
+functii (320 octeti), umple bufferul functiei vulnerabile (270 octeti), depaseste adresa frame-ului functiei si suprascrie adresa de return
+cu adresa functiei care afiseaza flagul
+
+
+Payload-ul a fost generat prin comanda:
+
+python -c 'print "A"*(320 + 270 + 4) + "\x91\x92\x04\x08"'.
+
+Flagul gasit este: NICE_FLAG{6e8deaae313b3ea6003179aab9649e23}
+
+
+
+## Spargerea binarului naughty
+
+Am descoperit ca functia vulnerabila se gaseste la adresa la 0x08049338.
+Funtia este vulnerabila pentru ca exista o variabila ce poate fi suprascrisa care este un pointer la o functie.
+Acest pointer la functie se apeleaza la finalul apelului functiei actuale, deci putem controla ce functie se va apela in continuare.
+
+Pentru spargerea binarului, am localizat functia care afiseaza flag-ul la adresa 0x08049291. In functia main() se apeleaza 6 functii, 
+din care a 3-a este cea vulnerabila. Primele doua functii citesc de la tastatura un numar de octeti care depaseste lungimea buffer-ului, 
+si trebuie ca la o anumita variabla sa suprascriem o valoare specifica. Payload-ul pentru a "depasi" cele doua functii arata de forma:
+
+"A" * numarul octeti din buffer + octetii asociati adresei corecte + "A" * restul caracterelor citite in read().
+
+In functia cu vulnerabilitati, adresa necesara pentru a continua executia programului si adresa la care se afla functia apelata la final
+se afla la distanta una de cealalta. Astfel, payload-ul contine:
+
+"A" * numarul octeti din buffer + adresa pe care vrem sa o apelam la final + "A" * distanta dintre cele doua adrese + octetii adresei necesare pentru continuarea executiei.
+
+Payload-ul a fost generat prin comanda:
+
+python -c 'print "A" * 56 + "\x7e\xc9\x28\x15" + "A" * 166 + "A" * 67 + "\x64\xeb\xbd\xee" + "A" * 98 + 178 * "A" + "\x91\x92\x04\x08" + "A" * 101 + "\xe1\x03\xa3\xe5"'
+
+Flagul gasit este: NAUGHTY_FLAG{50249d7189ea0d7e084450b577a6e7f8}
+
+
+
+## Bonus - Shellcode
+
+Pentru a deschide un terminal in naughty, am injectat in payload-ul anterior un shellcode pe care l-am gasit la urmatorul link:
+
+http://shell-storm.org/shellcode/files/shellcode-575.php
+
+Si am suprascris adresa functiei care se apeleaza la finalul functiei vulnerabile din program cu adresa de pe stiva la care se afla inceputul shellcode-ului.
+
+Payload-ul a fost generat prin comanda:
+
+python -c 'print "A" * 56 + "\x7e\xc9\x28\x15" + "A" * 166 + "A" * 67 + "\x64\xeb\xbd\xee" + "A" * 98 + 157 * "A" + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80" + "\xed\xd0\xff\xff" + "A" * 101 + "\xe1\x03\xa3\xe5"'
